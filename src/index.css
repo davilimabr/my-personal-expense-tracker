@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Defaulting to the requested dark palette */
+    --background: 240 18% 3%;
+    /* #07070a */
+    --foreground: 210 40% 98%;
+    /* Light text */
+
+    --card: 214 9% 15%;
+    /* #24272b */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 214 9% 15%;
+    /* #24272b */
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 213 100% 33%;
+    /* #004ba8 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 48% 47%;
+    /* #3e78b2 */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 10% 32%;
+    /* #4a525a */
+    --muted-foreground: 215 20.2% 75.1%;
+
+    --accent: 213 100% 33%;
+    /* #004ba8 used as accent too? or maybe 3e78b2 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 210 10% 32%;
+    /* #4a525a */
+    --input: 214 9% 15%;
+    /* #24272b */
+    --ring: 213 100% 33%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
