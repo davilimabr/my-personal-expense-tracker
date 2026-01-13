@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react"
-import { Plus } from "lucide-react"
+import { Plus, DollarSign } from "lucide-react"
 import { useData } from "../context/DataContext"
 import { Button } from "../components/ui/button"
 import { Card, CardContent } from "../components/ui/card"
 import { Dialog } from "../components/ui/dialog"
 import { IncomeForm } from "../components/forms/IncomeForm"
+import { SalaryForm } from "../components/forms/SalaryForm"
 import { formatCurrency } from "../lib/utils"
 import { MonthNavigator } from "../components/MonthNavigator"
 import { isSameMonth } from "date-fns"
@@ -12,6 +13,7 @@ import { isSameMonth } from "date-fns"
 export function Incomes() {
     const { data, deleteData, currentDate } = useData()
     const [isOpen, setIsOpen] = useState(false)
+    const [isSalaryOpen, setIsSalaryOpen] = useState(false)
 
     const incomes = useMemo(() => {
         return (data.filter(d => {
@@ -33,6 +35,10 @@ export function Incomes() {
                 </div>
                 <div className="flex gap-2 items-center">
                     <MonthNavigator />
+                    <Button onClick={() => setIsSalaryOpen(true)} variant="outline">
+                        <DollarSign className="mr-2 h-4 w-4" />
+                        Configurar Salário
+                    </Button>
                     <Button onClick={() => setIsOpen(true)}>
                         <Plus className="mr-2 h-4 w-4" />
                         Nova Receita
@@ -80,6 +86,10 @@ export function Incomes() {
 
             <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)} title="Nova Receita">
                 <IncomeForm onSuccess={() => setIsOpen(false)} />
+            </Dialog>
+
+            <Dialog isOpen={isSalaryOpen} onClose={() => setIsSalaryOpen(false)} title="Configurar Salário Automático">
+                <SalaryForm onSuccess={() => setIsSalaryOpen(false)} />
             </Dialog>
         </div>
     )

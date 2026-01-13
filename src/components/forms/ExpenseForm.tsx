@@ -5,6 +5,7 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { DatePicker } from '../ui/date-picker'
 import type { Expense } from '../../types'
+import { PAYMENT_METHODS } from '../../constants'
 
 interface ExpenseFormProps {
     onSuccess: () => void
@@ -47,7 +48,7 @@ export function ExpenseForm({ onSuccess, initialData }: ExpenseFormProps) {
     // Derive lists
     const categories = data.filter(d => d.type === 'CATEGORY')
     const accounts = data.filter(d => d.type === 'ACCOUNT')
-    const paymentMethods = data.filter(d => d.type === 'PAYMENT_METHOD')
+    // Payment methods are now fixed constant
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -154,7 +155,7 @@ export function ExpenseForm({ onSuccess, initialData }: ExpenseFormProps) {
                     onChange={e => setFormData({ ...formData, paymentMethodId: e.target.value })}
                 >
                     <option value="">Selecione (Opcional)...</option>
-                    {paymentMethods.map(p => (
+                    {PAYMENT_METHODS.map(p => (
                         <option key={p.id} value={p.id}>{p.description}</option>
                     ))}
                 </select>

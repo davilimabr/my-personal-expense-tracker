@@ -1,5 +1,6 @@
+
 import { useState, useMemo } from "react"
-import { Plus, Tag, CreditCard, Pencil, Trash2, Sparkles } from "lucide-react"
+import { Plus, Tag, Pencil, Trash2, Sparkles } from "lucide-react"
 import { useData } from "../context/DataContext"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
@@ -18,7 +19,6 @@ export function Expenses() {
     const [editingExpense, setEditingExpense] = useState<Expense | undefined>(undefined)
 
     const [isCategoryOpen, setIsCategoryOpen] = useState(false)
-    const [isPaymentOpen, setIsPaymentOpen] = useState(false)
 
     // Subscriptions
     const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false)
@@ -76,10 +76,6 @@ export function Expenses() {
                     <Button variant="outline" onClick={() => setIsCategoryOpen(true)}>
                         <Tag className="mr-2 h-4 w-4" />
                         Categorias
-                    </Button>
-                    <Button variant="outline" onClick={() => setIsPaymentOpen(true)}>
-                        <CreditCard className="mr-2 h-4 w-4" />
-                        Pagamentos
                     </Button>
                     <Button onClick={() => setIsExpenseOpen(true)}>
                         <Plus className="mr-2 h-4 w-4" />
@@ -200,10 +196,6 @@ export function Expenses() {
 
             <Dialog isOpen={isCategoryOpen} onClose={() => setIsCategoryOpen(false)} title="Gerenciar Categorias">
                 <EntityList type="CATEGORY" title="Categoria" onClose={() => setIsCategoryOpen(false)} />
-            </Dialog>
-
-            <Dialog isOpen={isPaymentOpen} onClose={() => setIsPaymentOpen(false)} title="Gerenciar Formas de Pagamento">
-                <EntityList type="PAYMENT_METHOD" title="Forma de Pagamento" onClose={() => setIsPaymentOpen(false)} />
             </Dialog>
 
             {/* Subscription Dialog */}

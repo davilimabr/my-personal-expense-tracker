@@ -8,6 +8,7 @@ export type TransactionType =
     | 'RECEIVABLE'
     | 'BUDGET_DISTRIBUTION'
     | 'SUBSCRIPTION'
+    | 'SALARY_CONFIG'
 
 export interface AppData {
     id: string
@@ -51,6 +52,7 @@ export interface Account extends AppData {
     type: 'ACCOUNT'
     name: string // Stored in description
     initialBalance?: number // Stored in value
+    accountType?: 'CREDIT' | 'DEBIT'
 }
 
 export interface Category extends AppData {
@@ -61,4 +63,12 @@ export interface Category extends AppData {
 export interface PaymentMethod extends AppData {
     type: 'PAYMENT_METHOD'
     name: string // Stored in description
+}
+
+export interface SalaryConfig extends AppData {
+    type: 'SALARY_CONFIG'
+    active: boolean
+    // Uses description for name (default: Salário)
+    // Uses value for amount
+    // Uses account for target account
 }

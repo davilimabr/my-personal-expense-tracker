@@ -90,6 +90,62 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         }
     }, [data, loading])
 
+    // Salary Generation Effect
+    useEffect(() => {
+        if (loading || data.length === 0) return
+
+        const salaryConfig = data.find(d => d.type === 'SALARY_CONFIG')
+        if (!salaryConfig || !salaryConfig.active) return
+
+        const today = new Date()
+        const currentMonthStr = today.toISOString().slice(0, 7) // YYYY-MM
+
+        // Find last business day of current month
+        // 1. Get last day of month
+        const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+        const lastDayOfMonth = new Date(nextMonth.getTime() - 1)
+
+        let lastBusinessDay = new Date(lastDayOfMonth)
+        // If Sunday (0), go back 2 days to Friday
+        if (lastBusinessDay.getDay() === 0) {
+            lastBusinessDay.setDate(lastDayOfMonth.getDate() - 2)
+        }
+        // If Saturday (6), go back 1 day to Friday
+        else if (lastBusinessDay.getDay() === 6) {
+            lastBusinessDay.setDate(lastDayOfMonth.getDate() - 1)
+        }
+
+        // Check if salary already exists for this month
+        // We track it by checking expenses/incomes. 
+        // Actually, type is INCOME. We need to check if an Income "Salary" exists from automation?
+        // Or just unique check: Type=INCOME && relatedId=salaryConfig.id (if we link it)
+        // Since we didn't add relatedId to Income type explicitly but AppData allows flexible fields, we can use it.
+        const exists = data.find(d => {
+            return d.type === 'INCOME' &&
+                d.relatedId === salaryConfig.id &&
+                d.date?.startsWith(currentMonthStr)
+        })
+
+        // Logic: specific rule "last business day".
+        // If today >= lastBusinessDay
+        if (!exists && today.getDate() >= lastBusinessDay.getDate()) {
+            console.log("Generating Salary for this month...")
+            const newIncome = {
+                id: generateId(),
+                type: 'INCOME',
+                date: lastBusinessDay.toISOString().split('T')[0],
+                description: salaryConfig.description || 'Salário',
+                value: Number(salaryConfig.value),
+                account: salaryConfig.account,
+                relatedId: salaryConfig.id, // Linking to config to avoid dupes
+                notes: 'Gerado automaticamente (Salário)'
+            } as any
+
+            setData(prev => [...prev, newIncome])
+            setDirty(true)
+        }
+    }, [data, loading])
+
     // Auto-save effect
     useEffect(() => {
         if (!dirty) return
